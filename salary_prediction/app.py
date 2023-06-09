@@ -1,5 +1,5 @@
 import pandas as pd
-import plotly as px
+import plotly.express as px
 import streamlit as st
 
 st.set_page_config(page_title='电子游戏销售数据仪表板',
