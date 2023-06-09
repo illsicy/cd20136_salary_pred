@@ -9,7 +9,7 @@ st.set_page_config(page_title='电子游戏销售数据仪表板',
 
 @st.cache_data
 def get_data_from_csv():
-    df = pd.read_csv('data/vgsales.csv')
+    df = pd.read_csv('salary_prediction/data/vgsales.csv')
     df.dropna(subset=['Year'], inplace=True)
     df['Year'] = df['Year'].astype('int')
     print('get data')
