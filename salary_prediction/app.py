@@ -1,5 +1,5 @@
 import pandas as pd
-import plotly as px
+import matplotlib.pyplot as plt
 import streamlit as st
 
 st.set_page_config(page_title='电子游戏销售数据仪表板',
@@ -67,34 +67,25 @@ st.markdown('---')
 # 各地区销售额柱状图
 sales_by_region = df_selection[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']].sum().to_frame()
 sales_by_region.columns = ['Total']
-fig_region_sales = px.bar(
-    sales_by_region,
-    x='Total',
-    y=sales_by_region.index,
-    title='<b>各地区销售数据</b>'
-)
-fig_region_sales.update_layout(
-    xaxis=dict(title='销售额'),
-    yaxis=dict(title='区域')
-)
+fig_region_sales, ax1 = plt.subplots()
+ax1.bar(sales_by_region.index, sales_by_region['Total'])
+ax1.set_title('各地区销售数据')
+ax1.set_xlabel('区域')
+ax1.set_ylabel('销售额')
 
 # 按年绘制
 sales_by_year = df_selection.groupby(by='Year').sum()[['Global_Sales']]
 
-fig_year_sales = px.bar(
-    sales_by_year,
-    y='Global_Sales',
-    x=sales_by_year.index,
-    title='<b>各年销售数据</b>'
-)
-fig_year_sales.update_layout(
-    xaxis=dict(title='年份'),
-    yaxis=dict(showgrid=False, title='销售额'),
+fig_year_sales, ax2 = plt.subplots()
+ax2.bar(sales_by_year.index, sales_by_year['Global_Sales'])
+ax2.set_title('各年销售数据')
+ax2.set_xlabel('年份')
+ax2.set_ylabel('销售额')
+ax2.grid(False)
 
-)
 left_column, right_column = st.columns(2)
-left_column.plotly_chart(fig_region_sales, use_container_width=True)
-right_column.plotly_chart(fig_year_sales, use_container_width=True)
+left_column.pyplot(fig_region_sales)
+right_column.pyplot(fig_year_sales)
 
 hide_st_style = """
 <style>
