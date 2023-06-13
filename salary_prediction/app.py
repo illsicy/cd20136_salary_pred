@@ -64,37 +64,9 @@ df_selection = df.query(
 
 st.title(f'Data Science Job Salary Prediction Application \n base on data 2020-2022 (Made by Lim Chen Gen - CD20136)')
 
-# KPI计算
-#round_digit = 2
-#na_total = round(df_selection['NA_Sales'].sum(), round_digit)
-#eu_total = round(df_selection['EU_Sales'].sum(), round_digit)
-#jp_total = round(df_selection['JP_Sales'].sum(), round_digit)
-#other_total = round(df_selection['Other_Sales'].sum(), round_digit)
-#global_total = round(df_selection['Global_Sales'].sum(), round_digit)
-
-#first_column, second_column, third_column, fourth_column, fifth_column  = st.columns(5)
-#with first_column:
-#    st.subheader('全球')
-#    st.subheader(f'US $ {global_total}M')
-#with second_column:
-#    st.subheader('北美')
-#    st.subheader(f'US $ {na_total}')
-#with third_column:
-#    st.subheader('欧洲')
-#    st.subheader(f'US $ {eu_total}')
-#with fourth_column:
-#    st.subheader('日本')
-#    st.subheader(f'US $ {jp_total}')
-#with fifth_column:
-#    st.subheader('其他')
-#   st.subheader(f'US $ {other_total}')
-
 st.markdown('---')
 
-# 各地区销售额柱状图
 
-
-# 按年绘制
 sales_by_year = df_selection.groupby('experience_level')['salary_in_usd'].mean().reset_index()
 
 
@@ -134,10 +106,11 @@ right_column.write("EN = Entry,  EX = Executive, MI = Mid, SE = Senior")
 
 ################machine learning stuff#########################
 ################input deal#########################
-selected_employment_type = left_column.selectbox("Select Employment Type", df['employment_type'].unique())
-selected_experience_level = right_column.selectbox("Select Experience Level", df['experience_level'].unique())
-selected_remote_ratio = left_column.selectbox("Select Remote Working Ratio", df['remote_ratio'].unique())
-selected_company_size = right_column.selectbox("Select Company Size", df['company_size'].unique())
+left_column2, right_column2 = st.columns(2)
+selected_employment_type = left_column2.selectbox("Select Employment Type", df['employment_type'].unique())
+selected_experience_level = right_column2.selectbox("Select Experience Level", df['experience_level'].unique())
+selected_remote_ratio = left_column2.selectbox("Select Remote Working Ratio", df['remote_ratio'].unique())
+selected_company_size = right_column2.selectbox("Select Company Size", df['company_size'].unique())
 selected_job_title = st.selectbox("Select a Job Tittle", df['job_title'].unique())
 expectation_salary = st.number_input("Enter your expectation salary")
 #email = st.text_input("Enter your email address")
