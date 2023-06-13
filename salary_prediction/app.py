@@ -18,7 +18,7 @@ st.set_page_config(page_title='Data Science Job Salary Prediction',
 
 @st.cache_data
 def get_data_from_csv():
-    df = pd.read_csv('data/ds_salaries.csv')
+    df = pd.read_csv('./data/ds_salaries.csv')
     df.dropna(inplace=True)
     df['remote_ratio'] = df['remote_ratio'].replace({0: 'Non-Remote', 50: 'Partial', 100: 'Remote'})
     #df.dropna(subset=['Year'], inplace=True)
