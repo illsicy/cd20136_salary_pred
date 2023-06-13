@@ -19,6 +19,7 @@ st.set_page_config(page_title='Data Science Job Salary Prediction',
 @st.cache_data
 def get_data_from_csv():
     df = pd.read_csv('ds_salaries.csv')
+    st.write(dateset.isnull().sum())
     df.dropna(inplace=True)
     df['remote_ratio'] = df['remote_ratio'].replace({0: 'Non-Remote', 50: 'Partial', 100: 'Remote'})
     #df.dropna(subset=['Year'], inplace=True)
@@ -235,7 +236,6 @@ st.write("Precision:", precision)
 st.write("Recall:", recall)
 st.write("F-Score:", f_score)
 st.write("Accuracy:", accuracy)
-
 
 hide_st_style = """
 <style>
