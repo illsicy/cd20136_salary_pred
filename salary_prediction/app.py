@@ -19,8 +19,9 @@ st.set_page_config(page_title='Data Science Job Salary Prediction',
 @st.cache_data
 def get_data_from_csv():
     df = pd.read_csv('ds_salaries.csv')
-    st.write(df.isnull().sum())
+    #st.write(df.isnull().sum())
     df.dropna(inplace=True)
+    df = df.drop(["index", "work_year", "salary", "salary_currency", "employee_residence", "company_location"], axis=1)
     df['remote_ratio'] = df['remote_ratio'].replace({0: 'Non-Remote', 50: 'Partial', 100: 'Remote'})
     #df.dropna(subset=['Year'], inplace=True)
     #df['Year'] = df['Year'].astype('int')
