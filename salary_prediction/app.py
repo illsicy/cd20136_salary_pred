@@ -153,10 +153,6 @@ clf.fit(X_train, y_train)
 # Make predictions on the test set
 y_pred = clf.predict(X_test)
 
-importances = classifier.feature_importances_
-feature_names = X.columns
-for feature, importance in zip(feature_names, importances):
-    st.write(f"{feature}: {importance}")
 st.markdown('---')
 
 # Create an input sample with the selected values
