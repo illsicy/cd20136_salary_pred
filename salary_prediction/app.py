@@ -18,7 +18,7 @@ st.set_page_config(page_title='Data Science Job Salary Prediction',
 
 @st.cache_data
 def get_data_from_csv():
-    df = pd.read_csv('ds_salaries.csv')
+    df = pd.read_csv('data/ds_salaries.csv')
     #st.write(df.isnull().sum())
     df.dropna(inplace=True)
     df = df.drop(["index", "work_year", "salary", "salary_currency", "employee_residence", "company_location"], axis=1)
@@ -136,7 +136,7 @@ df['company_size'] = label_encoder.fit_transform(df['company_size'])
 
 
 ################train test data#########################
-X = df[['experience_level', 'employment_type','job_title','remote_ratio', 'company_size']]
+X = df[['experience_level','job_title','remote_ratio', 'company_size']]
 y = df['salary_in_usd']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -145,7 +145,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 #st.write(df['job_title'])
 
 # Create a Decision Tree classifier
-clf = DecisionTreeClassifier()
+clf = DecisionTreeClassifier(criterion='entropy',random_state=0)
 
 # Train the classifier
 clf.fit(X_train, y_train)
@@ -156,7 +156,7 @@ y_pred = clf.predict(X_test)
 st.markdown('---')
 
 # Create an input sample with the selected values
-input_sample = [job_title_index, employment_type_index, experience_level_index, remote_ratio_index, company_size_index]
+input_sample = [experience_level_index, job_title_index, remote_ratio_index, company_size_index]
 
 # Convert the input sample into a DataFrame with a single row
 input_df = pd.DataFrame([input_sample], columns=X.columns)
@@ -194,16 +194,13 @@ st.markdown('---')
 ############################################
 
 # Create the Random Forest classifier
-classifier = RandomForestClassifier()
+classifier = RandomForestClassifier(n_estimators=50,criterion='entropy',random_state=0)
 
 # Train the classifier
 classifier.fit(X_train, y_train)
 
 # Make predictions on the test data
 y_pred_rf = classifier.predict(X_test)
-
-# Create an input sample with the selected values
-input_sample = [job_title_index, employment_type_index, experience_level_index, remote_ratio_index, company_size_index]
 
 # Convert the input sample into a DataFrame with a single row
 input_df = pd.DataFrame([input_sample], columns=X.columns)
@@ -213,11 +210,23 @@ prediction_rf = classifier.predict(input_df)
 
 # Print the predicted result
 st.subheader("Random Forest")
+probabilities = classifier.predict_proba(input_df)
+#probability_pos = probabilities[0][1]
+probability_neg = probabilities[0][0]
+
 #st.write("The predicted salary is:", prediction[0])
 if prediction_rf[0] == 1:
     st.write("Congratulations! Your expected salary of", expectation_salary, "$ can be achieved based on the machine learning model.")
 else:
     st.write("Sorry, it seems that your expected salary of", expectation_salary, "may not be achievable based on the machine learning model.")
+
+if probabilities.shape[1] > 1:
+    st.write("The confidence level of the result:",round((1-probability_neg)*100, 2),"%")
+else:
+    st.write("The confidence level of the result:","100%")
+
+#st.write(classifier.feature_importances_)
+#st.write(clf.feature_importances_)
 
 #confusion
 # Calculate confusion matrix
