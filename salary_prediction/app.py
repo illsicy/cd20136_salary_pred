@@ -18,7 +18,7 @@ st.set_page_config(page_title='Data Science Job Salary Prediction',
 
 @st.cache_data
 def get_data_from_csv():
-    df = pd.read_csv('ds_salaries.csv')
+    df = pd.read_csv('data/ds_salaries.csv')
     #st.write(df.isnull().sum())
     df.dropna(inplace=True)
     df = df.drop(["index", "work_year", "salary", "salary_currency", "employee_residence", "company_location"], axis=1)
