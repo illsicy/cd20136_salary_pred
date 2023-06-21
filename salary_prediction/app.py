@@ -194,7 +194,7 @@ st.markdown('---')
 ############################################
 
 # Create the Random Forest classifier
-classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',random_state=0)
+classifier = RandomForestClassifier(n_estimators=50,criterion='entropy',random_state=0)
 
 # Train the classifier
 classifier.fit(X_train, y_train)
